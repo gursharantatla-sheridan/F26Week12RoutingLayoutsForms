@@ -1,0 +1,41 @@
+﻿@page "/blazorform"
+@rendermode InteractiveServer
+
+<h3>Blazor Form Example</h3>
+
+<EditForm Model="product" OnValidSubmit="Save" FormName="ProductForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    Name: <InputText @bind-Value="product.Name" />
+    <ValidationMessage For="@(() => product.Name)" /><br />
+
+    Price: <InputNumber @bind-Value="product.Price" />
+    <ValidationMessage For="@(() => product.Price)" /><br /><br />
+
+    <button type="submit">Save</button>
+</EditForm>
+
+@if (submittedProduct != null)
+{
+    <p>Name = @submittedProduct.Name</p>
+    <p>Price = @submittedProduct.Price.ToString("C")</p>
+}
+else
+{
+    <p>Product not submitted yet.</p>
+}
+
+
+@code {
+    ProductModel product = new();
+    ProductModel? submittedProduct = null;
+
+    private void Save()
+    {
+        // simulate saving data
+        submittedProduct = new();
+        submittedProduct.Name = product.Name;
+        submittedProduct.Price = product.Price;
+    }
+}
